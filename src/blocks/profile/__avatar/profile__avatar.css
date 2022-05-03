@@ -1,0 +1,13 @@
+.profile__avatar {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+/* @media (max-width: 740px) {
+  .profile__avatar {
+    margin: 0 auto;
+  }
+} */
