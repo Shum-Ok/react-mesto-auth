@@ -8,8 +8,12 @@ import ImagePopup from './ImagePopup'
 import EditProfilePopup from './EditProfilePopup'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup'
+import Login from './Login'
+import Register from './Register'
+import InfoTooltip from './InfoTooltip'
 import api from '../../src/utils/Api'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 
 function App() {
@@ -20,6 +24,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({})
   const [currentUser, setCurrentUser] = useState({})
   const [cards, setCards] = useState([])
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
     api.getAllData()
@@ -101,6 +106,20 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
+      {/* <Login /> */}
+      {/* <Register /> */}
+      {/* <InfoTooltip /> */}
+      <Switch>
+        <Route path="/sign-up">
+          
+        </Route>
+        <Route path="/sign-in">
+          
+        </Route>
+        <Route>
+          {!loggedIn && <Redirect to="/sign-in" />}
+          </Route>
+      </Switch>
       <Main
         onCardClick={handleCardClick}
         onEditProfile={handleEditProfileClick}
