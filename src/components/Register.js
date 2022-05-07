@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-// import components
 
 function Register({ onRegister }) {
-  const [state, setState] = useState({
+  const [formValues, setFormValues] = useState({
     email: '',
     password: ''
   })
 
   function handleChange(e) {
     const {name, value} = e.target
-    setState((prev) => ({
+    setFormValues((prev) => ({
       ...prev,
       [name]: value
     }))
@@ -18,7 +17,7 @@ function Register({ onRegister }) {
 
   function handleSubmit(e) {
     e.preventDefault()
-    onRegister(state.password, state.email)
+    onRegister(formValues.password, formValues.email)
   }
 
   return (
@@ -27,7 +26,7 @@ function Register({ onRegister }) {
       <form onSubmit={handleSubmit} className='auth__form'>
         <input
           onChange={handleChange}
-          value={state.email || ''}
+          value={formValues.email || ''}
           className='auth__input'
           name='email'
           type='email'
@@ -36,7 +35,7 @@ function Register({ onRegister }) {
         />
         <input
           onChange={handleChange}
-          value={state.password || ''}
+          value={formValues.password || ''}
           className='auth__input'
           name='password'
           type='password'

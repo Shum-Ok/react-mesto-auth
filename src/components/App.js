@@ -42,12 +42,14 @@ function App() {
 
   useEffect(() => {
     handlTokenCheck()
-    api.getAllData()
-      .then(([data, user]) => {
-        setCards(data)
-        setCurrentUser(user)
-      })
-      .catch(err => console.log(err))
+    if(!loggedIn) {
+      api.getAllData()
+        .then(([data, user]) => {
+          setCards(data)
+          setCurrentUser(user)
+        })
+        .catch(err => console.log(err))
+    }
   }, [])
 
   useEffect(() => {
@@ -164,20 +166,18 @@ function App() {
   }
 
   function handlTokenCheck() {
-    if (localStorage.getItem('token')) {
-      const token = localStorage.getItem('token')
-      if(token) {
-        auth
-          .tokenValid(token)
-          .then(res => {
-            if(res) {
-              setLoggedIn(true)
-              setUserEmail(res.data.email)
-              history.push('/')
-            }
-          })
-          .catch((err) => console.log(err))
-      }
+    const token = localStorage.getItem('token')
+    if(token) {
+      auth
+        .tokenValid(token)
+        .then(res => {
+          if(res) {
+            setLoggedIn(true)
+            setUserEmail(res.data.email)
+            history.push('/')
+          }
+        })
+        .catch((err) => console.log(err))
     }
   }
 
@@ -207,16 +207,20 @@ function App() {
         />
         <Route path="/sign-up">
           <Register onRegister={handleRegister} />
-          <InfoTooltip isOpen={isInfoTooltipPopupOpen} onClose={closeAllPopups} imgInfo={message.imgInfo} textInfo={message.text} />
         </Route>
         <Route path="/sign-in">
           <Login onLogin={handleLogin} />
-          <InfoTooltip isOpen={isInfoTooltipPopupOpen} onClose={closeAllPopups} imgInfo={message.imgInfo} textInfo={message.text} />
         </Route>
         <Route>{loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}</Route>
       </Switch>
       <Footer />
 
+      <InfoTooltip
+        isOpen={isInfoTooltipPopupOpen}
+        onClose={closeAllPopups}
+        imgInfo={message.imgInfo}
+        textInfo={message.text}
+      />
       <EditProfilePopup
         onUpdateUser={handleUpdateUser}
         isOpen={isEditProfilePopupOpen}
